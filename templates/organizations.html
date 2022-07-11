@@ -1,0 +1,58 @@
+<!-- Template page: offers three sections to visualize a 3 steps workflow.-->
+
+{% extends "masterPage.html" %}
+
+{% block content %}
+<div class="row">
+    <!-- Left Rail -->
+    <div class="col-xl-3 col-md-3">
+    </div>
+
+    <!-- Middle Rail -->
+    <div class="col-xl-6 col-md-6">
+        <div class="section" >
+            <div class="panel panel--loose panel--raised base-margin-bottom">
+                <form action="/select_organization" method="POST" name="api_key"> 
+                    <div class="section"> 
+                        
+                        <!-- OPTIONAL: Replace with Customer Logo -->
+                        <div class="flex flex-center" style="margin-bottom:20px;">
+                            <img id="customer-logo" src="/static/images/Logo_green.png">
+                        </div>
+                            <!--Dropdown Select-->
+                            <div class="form-group base-margin-bottom">
+                                    <div class="form-group__text select">
+                                        <select name="organization" id="input-type-select" onfocus="showOriginalText('Select organization')">
+                                            {% for organization in organizations %}
+                                                <option value="{{organization['name']}}"> {{organization['name']}} </option>
+                                            {% endfor %}
+                                        </select>
+                                        <label for="input-type-select">Organizations*</label>
+                                    </div>
+                                </div>
+                           
+                        
+                        <!--CUSTOMIZE END-->
+                    
+                        <!-- Button area-->
+                        <input id="login-submit" onclick="showLoadingText()" onload="showOriginalText('Select organization')" class="btn btn-primary" type="submit" value="Select organization">
+                        <span class="required-label pull-right">* required fields</span>
+
+                    </div> 
+
+                </form>
+                
+                <!--Alert for error message-->
+                    <!--PASS INFO: Pass the following information to the template: error=True/False ; errormessage="xxx" ; errorcode=xxx-->
+                        <!--Helper Template: Alert for error message-->
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Rail -->
+    <div class="col-xl-3 col-md-3">
+    </div>
+</div>
+{%  endblock %}

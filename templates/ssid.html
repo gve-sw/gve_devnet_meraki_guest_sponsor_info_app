@@ -1,0 +1,142 @@
+<!-- Template page: offers three sections to visualize a 3 steps workflow.-->
+
+{% extends "masterPage.html" %}
+
+{% block content %}
+<div class="row">
+    <!-- Left Rail -->
+    <div class="col-xl-3 col-md-3">
+    </div>
+
+    <!-- Middle Rail -->
+    <div class="col-xl-6 col-md-6">
+        <div class="section" >
+            <div class="panel panel--loose panel--raised base-margin-bottom">
+                <form action="/submit_ssid" method="POST" name="api_key"> 
+                    <div class="section"> 
+                        
+                        <!-- OPTIONAL: Replace with Customer Logo -->
+                        <div class="flex flex-center" style="margin-bottom:20px;">
+                            <img id="customer-logo" src="/static/images/Logo_green.png">
+                        </div>
+                        
+                        <!--OPTIONAL: Info alert e.g. about required preconfigurations-->
+                        <div class="alert alert--info">
+                            <div class="alert__icon icon-info-outline"></div>
+                            <div class="alert__message">
+                                <!--CUSTOMIZE-->
+                                Select the SSID where the guest sponsor flow is enabled.
+                                <!--CUSTOMIZE END-->
+                            </div>
+                        </div>
+                         
+                        <!--CUSTOMIZE: Text field section: Add or remove elements as needed.-->
+                            <!--Dropdown Select-->
+                            <div class="form-group base-margin-bottom">
+                                    <div class="form-group__text select">
+                                        <select name="ssid" id="input-type-select" onfocus="showOriginalText('Select SSID')">
+                                            {% for ssid in SSIDs %}
+                                                <option value="{{ssid['name']}}" {% if selected_ssid == ssid.name %} selected {% endif %} > {{ssid['name']}} </option>
+                                            {% endfor %}
+                                        </select>
+                                        <label for="input-type-select">SSIDs*</label>
+                                    </div>
+                                </div>
+                           
+                        
+                        <!--CUSTOMIZE END-->
+                    
+                        <!-- Button area-->
+                        <input id="login-submit" onclick="showLoadingText()" onload="showOriginalText('Submit SSID')" class="btn btn-primary" type="submit" value="Submit SSID">
+                        <span class="required-label pull-right">* required fields</span>
+
+                    </div> 
+
+                </form>
+                
+                <!--Alert for error message-->
+                    <!--PASS INFO: Pass the following information to the template: error=True/False ; errormessage="xxx" ; errorcode=xxx-->
+                        <!--Helper Template: Alert for error message-->
+
+
+            </div>
+            <div class="section" {% if not selected_ssid %} hidden {% endif %}>
+                <div class="panel panel--loose panel--raised base-margin-bottom">
+                    <h2 class="subtitle" style="text-align: center">Splash Info</h2>
+                    <form action="/download_csv" method="POST" >
+                        <div class="form-group__text">
+                            <div class="flex-fluid-right">
+                                <input name="download_button" class="btn btn-primary" type="submit" value="Download CSV" style="float: right;" onclick="$('#csv').show();">
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="section">
+                        <div class="responsive-table">
+                            <table class="table table--lined table--selectable table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <label class="checkbox">
+                                                <input type="checkbox" onClick="toggle(this)">
+                                                <span class="checkbox__input"></span>
+                                            </label>
+                                        </th>
+                                        <th class="sortable">Last seen <span class="sort-indicator icon-dropdown"></span></th>
+                                        <th class="text-center">Description</th>
+                                        <th class="text-center">OS</th>
+                                        <th class="text-center">IP</th>
+                                        <th class="text-center">Mac</th>
+                                        <th class="text-center">Sponsor Email</th>
+                                        <th class="text-center">Authorized</th>
+                                        <th class="text-center">Expires</th>
+                                        <th class="text-center">AP</th>
+                                        <th class="text-center">SSID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for splash_info in splash_infos %}
+                                        <tr>
+                                            <td>
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="mac" value="{{splash_info['mac']}}">
+                                                    <span class="checkbox__input"></span>
+                                                </label>
+                                            </td>
+                                            <td class="text-center"> {{splash_info['last_seen']}} </td>
+                                            <td class="text-center"> {{splash_info['description']}} </td>
+                                            <td class="text-center"> {{splash_info['os']}} </td>
+                                            <td class="text-center"> {{splash_info['ip']}} </td>
+                                            <td class="text-center"> {{splash_info['mac']}} </td>
+                                            <td class="text-center"> {{splash_info['sponsor_email']}} </td>
+                                            <td class="text-center"> {{splash_info['authorized']}} </td>
+                                            <td class="text-center"> {{splash_info['expires']}} </td>
+                                            <td class="text-center"> {{splash_info['ap']}} </td>
+                                            <td class="text-center"> {{splash_info['ssid']}} </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>                                                                    
+                    </div>   
+                </div>            
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Right Rail -->
+    <div class="col-xl-3 col-md-3">
+    </div>
+</div>
+{%  endblock %}
+
+<script>
+    function toggle(source) {
+      checkboxes = document.getElementsByName('meeting_id');
+      for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = source.checked;
+      }
+    }
+</script>

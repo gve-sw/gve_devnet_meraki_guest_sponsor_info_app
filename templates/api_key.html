@@ -1,0 +1,77 @@
+<!-- Template page: offers three sections to visualize a 3 steps workflow.-->
+
+{% extends "masterPage.html" %}
+
+{% block content %}
+<div class="row">
+    <!-- Left Rail -->
+    <div class="col-xl-3 col-md-3">
+    </div>
+
+    <!-- Middle Rail -->
+    <div class="col-xl-6 col-md-6">
+        <div class="section" >
+            <div class="panel panel--loose panel--raised base-margin-bottom">
+                <form action="/submit_api_key" method="POST" name="api_key"> 
+                    <div class="section"> 
+                        
+                        <!-- OPTIONAL: Replace with Customer Logo -->
+                        <div class="flex flex-center" style="margin-bottom:20px;">
+                            <img id="customer-logo" src="/static/images/Logo_green.png">
+                        </div>
+                        
+                        <!--OPTIONAL: Info alert e.g. about required preconfigurations-->
+                        <div class="alert alert--info">
+                            <div class="alert__icon icon-info-outline"></div>
+                            <div class="alert__message">
+                                <!--CUSTOMIZE-->
+                                You can generate a Meraki API key from the Meraki Dashboard. Please insert the Meraki API key below.
+                                <!--CUSTOMIZE END-->
+                            </div>
+                        </div>
+                         
+                        <!--CUSTOMIZE: Text field section: Add or remove elements as needed.-->
+                                                       
+                            <!--API KEY Field-->
+                                <div class="form-group base-margin-bottom">
+                                    <div class="form-group__text">
+                                        <input id="api-key" type="text" name="api_key" required="" onfocus="showOriginalText('Start Demo')">
+                                        <label for="api-key">Meraki API Key*</label>
+                                    </div>
+                                </div>
+
+                        <!--CUSTOMIZE END-->
+                    
+                        <!-- Button area-->
+                        <input id="login-submit" onclick="showLoadingText()" onload="showOriginalText('Start Demo')" class="btn btn-primary" type="submit" value="Start Demo">
+                        <span class="required-label pull-right">* required fields</span>
+
+                    </div> 
+
+                </form>
+                
+                <!--Alert for error message-->
+                    <!--PASS INFO: Pass the following information to the template: error=True/False ; errormessage="xxx" ; errorcode=xxx-->
+                        <!--Helper Template: Alert for error message-->
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Rail -->
+    <div class="col-xl-3 col-md-3">
+    </div>
+</div>
+{%  endblock %}
+
+{% block script %}
+<script>
+    function toggle(source) {
+        checkboxes = document.getElementsByName('network_id');
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
+{% endblock %}
